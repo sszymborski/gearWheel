@@ -13,8 +13,8 @@ using namespace std;
 #define MOVE_SPEED 0.3f
 #define RADIUS 3.0f
 
-#define GREY1 0.4f
-#define GREY2 0.6f
+#define GREY1 0.5f
+#define GREY2 0.7f
 
 
 const GLuint WIDTH = 800, HEIGHT = 600;
@@ -427,6 +427,9 @@ int main()
 
 		// 66 to start drugiego ko³a
 
+		GLfloat tekstura = 0.0f;
+
+	
 
 		for (int i = 0; i < 16; ++i)
 		{
@@ -434,7 +437,21 @@ int main()
 			vertices[offset + 12 * i] = cos(glm::radians(angle))*radiusCylinder + centerXcylinder;
 			vertices[offset + 12 * i + 1] = -(0 + centerZcylinder);
 			vertices[offset + 12 * i + 2] = sin(glm::radians(angle))*radiusCylinder+ centerYcylinder;
-			vertices[offset + 12 * i + 5] = 1;
+
+
+
+			vertices[offset + 12 * i + 3] = 0.4f;
+			vertices[offset + 12 * i + 4] = 0.4f;
+			vertices[offset + 12 * i + 5] = 0.4f;
+
+
+
+
+			vertices[offset + 12 * i + 7] = tekstura;
+			tekstura += 1.0f / 16.0f;
+			vertices[offset + 12 * i + 6] = 0.0f;
+
+			vertices[offset + 12 * i + 11] = 1.0f;
 
 			angle += 360.0 / 16.0;
 		}
@@ -442,10 +459,12 @@ int main()
 		vertices[offset + 12 * 16] = centerXcylinder;
 		vertices[offset + 12 * 16 + 1] = -(centerZcylinder);
 		vertices[offset + 12 * 16 + 2] = centerYcylinder;
-		vertices[offset + 12 * 16 + 5] = 1;
+		vertices[offset + 12 * 16 + 3] = 50.0f/256.0f;
+		vertices[offset + 12 * 16 + 4] = 35.0f/256.0f;
+		vertices[offset + 12 * 16 + 5] = 10.0f/256.0f;
 
 
-
+		tekstura = 0.0f;
 
 		offset2 = 132;
 
@@ -467,14 +486,48 @@ int main()
 			vertices[offset + 12 * i] = cos(glm::radians(angle))*radiusCylinder + centerXcylinder;
 			vertices[offset + 12 * i + 1] = (0 + centerZcylinder + sizeCylinder);
 			vertices[offset + 12 * i + 2] = sin(glm::radians(angle))*radiusCylinder + centerYcylinder;
-			vertices[offset + 12 * i + 5] = 1;
+
+			vertices[offset + 12 * i + 3] = 0.4f;
+			vertices[offset + 12 * i + 4] = 0.4f;
+			vertices[offset + 12 * i + 5] = 0.4f;
+
+
+
+			vertices[offset + 12 * i + 7] = tekstura;
+			tekstura += 1.0f / 16.0f;
+			vertices[offset + 12 * i + 6] = 1.0f;
+
+
+			vertices[offset + 12 * i + 11] = 1.0f;
 
 			angle += 360.0 / 16.0;
 		}
 		vertices[offset + 12 * 16] = centerXcylinder;
 		vertices[offset + 12 * 16 + 1] = (centerZcylinder + sizeCylinder);
 		vertices[offset + 12 * 16 + 2] = centerYcylinder;
-		vertices[offset + 12 * 16 + 5] = 1;
+		vertices[offset + 12 * 16 + 3] = 50.0f / 256.0f;
+		vertices[offset + 12 * 16 + 4] = 35.0f / 256.0f;
+		vertices[offset + 12 * 16 + 5] = 10.0f / 256.0f;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -499,7 +552,7 @@ int main()
 			indices[++number] = offset2 + 17 + i;
 
 			indices[++number] = offset2 + 17 + i;
-			indices[++number] = offset2 + 17 + (i + 1)%32;
+			indices[++number] = offset2 + 17 + (i + 1)%16;
 			indices[++number] = offset2 + (1+i)%16;
 		}
 
@@ -612,7 +665,8 @@ int main()
 
 		// prepare textures
 		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "metal-tekstura.jpg");
-		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "weiti.png");
+		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "drewno-tekstura.jpg");
+		GLuint texture2 = LoadMipmapTexture(GL_TEXTURE1, "bialy.jpg");
 
 		// main event loop
 		while (!glfwWindowShouldClose(window))
@@ -630,9 +684,14 @@ int main()
 
 			glBindTexture(GL_TEXTURE_2D, texture0);
 			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture0"), 0);
+
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, texture1);
 			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture1"), 1);
+
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, texture2);
+			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture2"), 1);
 			
 
 
