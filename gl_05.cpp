@@ -13,6 +13,10 @@ using namespace std;
 #define MOVE_SPEED 0.3f
 #define RADIUS 3.0f
 
+#define GREY1 0.4f
+#define GREY2 0.6f
+
+
 const GLuint WIDTH = 800, HEIGHT = 600;
 //GLfloat posX = 0.0f, posY = 5.0f, posZ = -10.0f, lookX = posX, lookY = posY-sin(glm::radians(70.0)), lookZ = posZ + 3.0f, lookAngleH = 90.0f, lookAngleV = 0.0f;
 
@@ -132,7 +136,9 @@ int main()
 		vertices[352] = centerX;
 		vertices[353] = centerY;
 		vertices[354] = centerZ;
-		vertices[355] = 1;
+		vertices[355] = GREY1;
+		vertices[356] = GREY1;
+		vertices[357] = GREY1;
 
 		// pierwszy wolny to 363
 
@@ -140,7 +146,9 @@ int main()
 		vertices[352 + 363] = centerX;
 		vertices[353 + 363] = centerY;
 		vertices[354 + 363] = centerZ + sizeGear;
-		vertices[356 + 363] = 1;
+		vertices[355 + 363] = GREY2;
+		vertices[356 + 363] = GREY2;
+		vertices[357 + 363] = GREY2;
 
 		static GLfloat angle = startAngle;
 
@@ -150,19 +158,28 @@ int main()
 			vertices[22 * i] = vertices[22 * i + 363] = cos(glm::radians(angle))*radius + centerX;
 			vertices[22 * i + 1] = vertices[363 + 22 * i + 1] = sin(glm::radians(angle))*radius + centerY;
 			vertices[22 * i + 2] = 0 + centerZ;
-			vertices[22 * i + 3] = 1;
+			vertices[22 * i + 3] = GREY1;		//R
+			vertices[22 * i + 4] = GREY1;		//G
+			vertices[22 * i + 5] = GREY1;		//B
 
 			vertices[22 * i + 11] = vertices[363 + 22 * i + 11] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
 			vertices[22 * i + 12] = vertices[363 + 22 * i + 12] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
 			vertices[22 * i + 13] = 0 + centerZ;
-			vertices[22 * i + 14] = 1;
+			vertices[22 * i + 14] = GREY1;
+			vertices[22 * i + 15] = GREY1;
+			vertices[22 * i + 16] = GREY1;
 
 
 			vertices[363 + 22 * i + 2] = sizeGear + centerZ;
 			vertices[363 + 22 * i + 13] = sizeGear + centerZ;
 
-			vertices[363 + 22 * i + 4] = 1;
-			vertices[363 + 22 * i + 15] = 1;
+			vertices[363 + 22 * i + 3] = GREY2;// 1;
+			vertices[363 + 22 * i + 4] = GREY2;// 1;
+			vertices[363 + 22 * i + 5] = GREY2;// 1;
+
+			vertices[363 + 22 * i + 14] = GREY2;// 1;
+			vertices[363 + 22 * i + 15] = GREY2;// 1;
+			vertices[363 + 22 * i + 16] = GREY2;// 1;
 
 			angle += 360.0 / 16.0;
 		}
@@ -262,12 +279,16 @@ int main()
 		vertices[offset + 352] = centerX;
 		vertices[offset + 353] = centerY;
 		vertices[offset + 354] = centerZ;
-		vertices[offset + 355] = 1;
+		vertices[offset + 355] = GREY1;
+		vertices[offset + 356] = GREY1;
+		vertices[offset + 357] = GREY1;
 
 		vertices[offset + 352 + 363] = centerX;
 		vertices[offset + 353 + 363] = centerY;
 		vertices[offset + 354 + 363] = centerZ + sizeGear;
-		vertices[offset + 356 + 363] = 1;
+		vertices[offset + 355 + 363] = GREY2;
+		vertices[offset + 356 + 363] = GREY2;
+		vertices[offset + 357 + 363] = GREY2;
 
 		angle = startAngle;
 
@@ -277,19 +298,27 @@ int main()
 			vertices[offset + 22 * i] = vertices[offset + 22 * i + 363] = cos(glm::radians(angle))*radius + centerX;
 			vertices[offset + 22 * i + 1] = vertices[offset + 363 + 22 * i + 1] = sin(glm::radians(angle))*radius + centerY;
 			vertices[offset + 22 * i + 2] = 0 + centerZ;
-			vertices[offset + 22 * i + 3] = 1;
+			vertices[offset + 22 * i + 3] = GREY1;
+			vertices[offset + 22 * i + 4] = GREY1;
+			vertices[offset + 22 * i + 5] = GREY1;
 
 			vertices[offset + 22 * i + 11] = vertices[offset + 363 + 22 * i + 11] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
 			vertices[offset + 22 * i + 12] = vertices[offset + 363 + 22 * i + 12] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
 			vertices[offset + 22 * i + 13] = 0 + centerZ;
-			vertices[offset + 22 * i + 14] = 1;
+			vertices[offset + 22 * i + 14] = GREY1;
+			vertices[offset + 22 * i + 15] = GREY1;
+			vertices[offset + 22 * i + 16] = GREY1;
 
 
 			vertices[offset + 363 + 22 * i + 2] = sizeGear + centerZ;
 			vertices[offset + 363 + 22 * i + 13] = sizeGear + centerZ;
 
-			vertices[offset + 363 + 22 * i + 4] = 1;
-			vertices[offset + 363 + 22 * i + 15] = 1;
+			vertices[offset + 363 + 22 * i + 3] = GREY2;
+			vertices[offset + 363 + 22 * i + 4] = GREY2;
+			vertices[offset + 363 + 22 * i + 5] = GREY2;
+			vertices[offset + 363 + 22 * i + 14] = GREY2;
+			vertices[offset + 363 + 22 * i + 15] = GREY2;
+			vertices[offset + 363 + 22 * i + 16] = GREY2;
 
 			angle += 360.0 / 16.0;
 		}
@@ -484,30 +513,30 @@ int main()
 
 		GLfloat basis[20 * 11] =
 		{
-			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,	//0
-			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,	//1
+			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,	//0
+			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,	//1
 			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,	//2
-			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,	//3
+			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,	//3
 
-			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f,	//4
-			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f,	//5
+			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f,	//4
+			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f,	//5
 			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f,	//6
-			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f,	//7
+			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f,	//7
 
-			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//8
-			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//9
+			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f,	//8
+			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//9
 			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//10
-			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//11
+			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f,	//11
 
-			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//12
-			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//13
+			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,	//12
+			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//13
 			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//14
-			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//15
+			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,	//15
 
-			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//16
-			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//17
+			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,	//16
+			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//17
 			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//18
-			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//19
+			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,	//19
 
 		};
 
@@ -562,9 +591,9 @@ int main()
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(1);
 
-		// vertex texture coordinates
-		// TEKSTURY glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-		// TEKSTURY glEnableVertexAttribArray(2);
+		 //vertex texture coordinates
+		 glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+		 glEnableVertexAttribArray(2);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
 
@@ -578,7 +607,7 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// prepare textures
-		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "iipw.png");
+		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "metal-tekstura.jpg");
 		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "weiti.png");
 
 		// main event loop
@@ -592,7 +621,7 @@ int main()
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //czyszczenie bufora koloru i bufora glebokosci
 
 			// Bind Textures using texture units
-			/* TEKSTURY
+			
 			glActiveTexture(GL_TEXTURE0);
 
 			glBindTexture(GL_TEXTURE_2D, texture0);
@@ -600,7 +629,7 @@ int main()
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, texture1);
 			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture1"), 1);
-			*/
+			
 
 
 
