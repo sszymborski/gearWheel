@@ -128,58 +128,58 @@ int main()
 		GLfloat sizeGear = 1.5f;
 		GLfloat radius = 1.0f;
 		GLfloat teethSize = 0.2f;
-		GLfloat vertices[11 * (8 * 4 + 1) * 2 * 2 +			34*11 +		 20*11];
+		GLfloat vertices[12 * (8 * 4 + 1) * 2 * 2 +			34*12 +		 20*12];
 
-		for (int i = 0; i < 11 * (8 * 4 + 1) * 2 * 2 +		 34 * 11		+20*11 ; ++i)
+		for (int i = 0; i < 12 * (8 * 4 + 1) * 2 * 2 +		 34 * 12		+20*12 ; ++i)
 			vertices[i] = 0;
 
-		vertices[352] = centerX;
-		vertices[353] = centerY;
-		vertices[354] = centerZ;
-		vertices[355] = GREY1;
-		vertices[356] = GREY1;
-		vertices[357] = GREY1;
+		vertices[32*12] = centerX;
+		vertices[32 * 12 + 1] = centerY;
+		vertices[32 * 12 + 2] = centerZ;
+		vertices[32 * 12 + 3] = GREY1;
+		vertices[32 * 12 + 4] = GREY1;
+		vertices[32 * 12 + 5] = GREY1;
 
 		// pierwszy wolny to 363
 
 
-		vertices[352 + 363] = centerX;
-		vertices[353 + 363] = centerY;
-		vertices[354 + 363] = centerZ + sizeGear;
-		vertices[355 + 363] = GREY2;
-		vertices[356 + 363] = GREY2;
-		vertices[357 + 363] = GREY2;
+		vertices[32 * 12 + 33 * 12] = centerX;
+		vertices[32 * 12 + 1 + 33 * 12] = centerY;
+		vertices[32 * 12 + 2 + 33 * 12] = centerZ + sizeGear;
+		vertices[32 * 12 + 3 + 33 * 12] = GREY2;
+		vertices[32 * 12 + 4 + 33 * 12] = GREY2;
+		vertices[32 * 12 + 5 + 33 * 12] = GREY2;
 
 		static GLfloat angle = startAngle;
 
 		for (int i = 0; i < 16; ++i)
 		{
 
-			vertices[22 * i] = vertices[22 * i + 363] = cos(glm::radians(angle))*radius + centerX;
-			vertices[22 * i + 1] = vertices[363 + 22 * i + 1] = sin(glm::radians(angle))*radius + centerY;
-			vertices[22 * i + 2] = 0 + centerZ;
-			vertices[22 * i + 3] = GREY1;		//R
-			vertices[22 * i + 4] = GREY1;		//G
-			vertices[22 * i + 5] = GREY1;		//B
+			vertices[24 * i] = vertices[24 * i + 33 * 12] = cos(glm::radians(angle))*radius + centerX;
+			vertices[24 * i + 1] = vertices[33 * 12 + 24 * i + 1] = sin(glm::radians(angle))*radius + centerY;
+			vertices[24 * i + 2] = 0 + centerZ;
+			vertices[24 * i + 3] = GREY1;		//R
+			vertices[24 * i + 4] = GREY1;		//G
+			vertices[24 * i + 5] = GREY1;		//B
 
-			vertices[22 * i + 11] = vertices[363 + 22 * i + 11] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
-			vertices[22 * i + 12] = vertices[363 + 22 * i + 12] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
-			vertices[22 * i + 13] = 0 + centerZ;
-			vertices[22 * i + 14] = GREY1;
-			vertices[22 * i + 15] = GREY1;
-			vertices[22 * i + 16] = GREY1;
+			vertices[24 * i + 12] = vertices[33*12 + 24 * i + 12] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
+			vertices[24 * i + 13] = vertices[33*12 + 24 * i + 13] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
+			vertices[24 * i + 14] = 0 + centerZ;
+			vertices[24 * i + 15] = GREY1;
+			vertices[24 * i + 16] = GREY1;
+			vertices[24 * i + 17] = GREY1;
 
 
-			vertices[363 + 22 * i + 2] = sizeGear + centerZ;
-			vertices[363 + 22 * i + 13] = sizeGear + centerZ;
+			vertices[33*12 + 24 * i + 2] = sizeGear + centerZ;
+			vertices[33 * 12 + 24 * i + 14] = sizeGear + centerZ;
 
-			vertices[363 + 22 * i + 3] = GREY2;// 1;
-			vertices[363 + 22 * i + 4] = GREY2;// 1;
-			vertices[363 + 22 * i + 5] = GREY2;// 1;
+			vertices[33 * 12 + 24 * i + 3] = GREY2;// 1;
+			vertices[33 * 12 + 24 * i + 4] = GREY2;// 1;
+			vertices[33 * 12 + 24 * i + 5] = GREY2;// 1;
 
-			vertices[363 + 22 * i + 14] = GREY2;// 1;
-			vertices[363 + 22 * i + 15] = GREY2;// 1;
-			vertices[363 + 22 * i + 16] = GREY2;// 1;
+			vertices[33 * 12 + 24 * i + 15] = GREY2;// 1;
+			vertices[33 * 12 + 24 * i + 16] = GREY2;// 1;
+			vertices[33 * 12 + 24 * i + 17] = GREY2;// 1;
 
 			angle += 360.0 / 16.0;
 		}
@@ -271,54 +271,54 @@ int main()
 
 
 
-		GLint offset = 11 * (8 * 4 + 1) * 2;
+		GLint offset = 12 * (8 * 4 + 1) * 2;
 
 		centerX = 2.7f;
 
 
-		vertices[offset + 352] = centerX;
-		vertices[offset + 353] = centerY;
-		vertices[offset + 354] = centerZ;
-		vertices[offset + 355] = GREY1;
-		vertices[offset + 356] = GREY1;
-		vertices[offset + 357] = GREY1;
+		vertices[offset + 32*12] = centerX;
+		vertices[offset + 32 * 12 + 1] = centerY;
+		vertices[offset + 32 * 12 + 2] = centerZ;
+		vertices[offset + 32 * 12 + 3] = GREY1;
+		vertices[offset + 32 * 12 + 4] = GREY1;
+		vertices[offset + 32 * 12 + 5] = GREY1;
 
-		vertices[offset + 352 + 363] = centerX;
-		vertices[offset + 353 + 363] = centerY;
-		vertices[offset + 354 + 363] = centerZ + sizeGear;
-		vertices[offset + 355 + 363] = GREY2;
-		vertices[offset + 356 + 363] = GREY2;
-		vertices[offset + 357 + 363] = GREY2;
+		vertices[offset + 32 * 12 + 33 * 12] = centerX;
+		vertices[offset + 32 * 12 + 33 * 12 + 1] = centerY;
+		vertices[offset + 32 * 12 + 33 * 12 + 2] = centerZ + sizeGear;
+		vertices[offset + 32 * 12 + 33 * 12 + 3] = GREY2;
+		vertices[offset + 32 * 12 + 33 * 12 + 4] = GREY2;
+		vertices[offset + 32 * 12 + 33 * 12 + 5] = GREY2;
 
 		angle = startAngle;
 
 		for (int i = 0; i < 16; ++i)
 		{
 
-			vertices[offset + 22 * i] = vertices[offset + 22 * i + 363] = cos(glm::radians(angle))*radius + centerX;
-			vertices[offset + 22 * i + 1] = vertices[offset + 363 + 22 * i + 1] = sin(glm::radians(angle))*radius + centerY;
-			vertices[offset + 22 * i + 2] = 0 + centerZ;
-			vertices[offset + 22 * i + 3] = GREY1;
-			vertices[offset + 22 * i + 4] = GREY1;
-			vertices[offset + 22 * i + 5] = GREY1;
+			vertices[offset + 24 * i] = vertices[offset + 24 * i + 33 * 12] = cos(glm::radians(angle))*radius + centerX;
+			vertices[offset + 24 * i + 1] = vertices[offset + 33 * 12 + 24 * i + 1] = sin(glm::radians(angle))*radius + centerY;
+			vertices[offset + 24 * i + 2] = 0 + centerZ;
+			vertices[offset + 24 * i + 3] = GREY1;
+			vertices[offset + 24 * i + 4] = GREY1;
+			vertices[offset + 24 * i + 5] = GREY1;
 
-			vertices[offset + 22 * i + 11] = vertices[offset + 363 + 22 * i + 11] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
-			vertices[offset + 22 * i + 12] = vertices[offset + 363 + 22 * i + 12] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
-			vertices[offset + 22 * i + 13] = 0 + centerZ;
-			vertices[offset + 22 * i + 14] = GREY1;
-			vertices[offset + 22 * i + 15] = GREY1;
-			vertices[offset + 22 * i + 16] = GREY1;
+			vertices[offset + 24 * i + 12] = vertices[offset + 33 * 12 + 24 * i + 12] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
+			vertices[offset + 24 * i + 13] = vertices[offset + 33 * 12 + 24 * i + 13] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
+			vertices[offset + 24 * i + 14] = 0 + centerZ;
+			vertices[offset + 24 * i + 15] = GREY1;
+			vertices[offset + 24 * i + 16] = GREY1;
+			vertices[offset + 24 * i + 17] = GREY1;
 
 
-			vertices[offset + 363 + 22 * i + 2] = sizeGear + centerZ;
-			vertices[offset + 363 + 22 * i + 13] = sizeGear + centerZ;
+			vertices[offset + 33 * 12 + 24 * i + 2] = sizeGear + centerZ;
+			vertices[offset + 33 * 12 + 24 * i + 14] = sizeGear + centerZ;
 
-			vertices[offset + 363 + 22 * i + 3] = GREY2;
-			vertices[offset + 363 + 22 * i + 4] = GREY2;
-			vertices[offset + 363 + 22 * i + 5] = GREY2;
-			vertices[offset + 363 + 22 * i + 14] = GREY2;
-			vertices[offset + 363 + 22 * i + 15] = GREY2;
-			vertices[offset + 363 + 22 * i + 16] = GREY2;
+			vertices[offset + 33 * 12 + 24 * i + 3] = GREY2;
+			vertices[offset + 33 * 12 + 24 * i + 4] = GREY2;
+			vertices[offset + 33 * 12 + 24 * i + 5] = GREY2;
+			vertices[offset + 33 * 12 + 24 * i + 15] = GREY2;
+			vertices[offset + 33 * 12 + 24 * i + 16] = GREY2;
+			vertices[offset + 33 * 12 + 24 * i + 17] = GREY2;
 
 			angle += 360.0 / 16.0;
 		}
@@ -413,7 +413,7 @@ int main()
 
 
 
-		offset = 1452;
+		offset = 132 * 12;
 
 
 
@@ -431,18 +431,18 @@ int main()
 		for (int i = 0; i < 16; ++i)
 		{
 
-			vertices[offset + 11 * i] = cos(glm::radians(angle))*radiusCylinder + centerXcylinder;
-			vertices[offset + 11 * i + 1] = -(0 + centerZcylinder);
-			vertices[offset + 11 * i + 2] = sin(glm::radians(angle))*radiusCylinder+ centerYcylinder;
-			vertices[offset + 11 * i + 5] = 1;
+			vertices[offset + 12 * i] = cos(glm::radians(angle))*radiusCylinder + centerXcylinder;
+			vertices[offset + 12 * i + 1] = -(0 + centerZcylinder);
+			vertices[offset + 12 * i + 2] = sin(glm::radians(angle))*radiusCylinder+ centerYcylinder;
+			vertices[offset + 12 * i + 5] = 1;
 
 			angle += 360.0 / 16.0;
 		}
 
-		vertices[offset + 11 * 16] = centerXcylinder;
-		vertices[offset + 11 * 16 + 1] = -(centerZcylinder);
-		vertices[offset + 11 * 16 + 2] = centerYcylinder;
-		vertices[offset + 11 * 16 + 5] = 1;
+		vertices[offset + 12 * 16] = centerXcylinder;
+		vertices[offset + 12 * 16 + 1] = -(centerZcylinder);
+		vertices[offset + 12 * 16 + 2] = centerYcylinder;
+		vertices[offset + 12 * 16 + 5] = 1;
 
 
 
@@ -460,21 +460,21 @@ int main()
 
 
 
-		offset += 11 * 17;
+		offset += 12 * 17;
 
 		for (int i = 0; i < 16; ++i)
 		{
-			vertices[offset + 11 * i] = cos(glm::radians(angle))*radiusCylinder + centerXcylinder;
-			vertices[offset + 11 * i + 1] = (0 + centerZcylinder + sizeCylinder);
-			vertices[offset + 11 * i + 2] = sin(glm::radians(angle))*radiusCylinder + centerYcylinder;
-			vertices[offset + 11 * i + 5] = 1;
+			vertices[offset + 12 * i] = cos(glm::radians(angle))*radiusCylinder + centerXcylinder;
+			vertices[offset + 12 * i + 1] = (0 + centerZcylinder + sizeCylinder);
+			vertices[offset + 12 * i + 2] = sin(glm::radians(angle))*radiusCylinder + centerYcylinder;
+			vertices[offset + 12 * i + 5] = 1;
 
 			angle += 360.0 / 16.0;
 		}
-		vertices[offset + 11 * 16] = centerXcylinder;
-		vertices[offset + 11 * 16 + 1] = (centerZcylinder + sizeCylinder);
-		vertices[offset + 11 * 16 + 2] = centerYcylinder;
-		vertices[offset + 11 * 16 + 5] = 1;
+		vertices[offset + 12 * 16] = centerXcylinder;
+		vertices[offset + 12 * 16 + 1] = (centerZcylinder + sizeCylinder);
+		vertices[offset + 12 * 16 + 2] = centerYcylinder;
+		vertices[offset + 12 * 16 + 5] = 1;
 
 
 
@@ -505,64 +505,64 @@ int main()
 
 
 
-		offset += 17 * 11;
+		offset += 17 * 12;
 
 		GLfloat x_basis = 4.0f;
 		GLfloat y_basis = 10.0f;
 		GLfloat z_basis = 1.0f;
 
-		GLfloat basis[20 * 11] =
+		GLfloat basis[20 * 12] =
 		{
-			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,	//0
-			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,	//1
-			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,	//2
-			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,	//3
+			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, -1.0f,	//0
+			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, -1.0f,	//1
+			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, -1.0f,	//2
+			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, -1.0f,	//3
 
-			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f,	//4
-			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f,	//5
-			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f,	//6
-			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f,	//7
+			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, -1.0f,	//4
+			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, -1.0f,	//5
+			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, -1.0f,	//6
+			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f, -1.0f,	//7
 
-			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f,	//8
-			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//9
-			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//10
-			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f,	//11
+			-x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f,	//8
+			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,	//9
+			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,	//10
+			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f,	//11
 
-			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,	//12
-			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//13
-			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//14
-			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,	//15
+			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f, -1.0f,	//12
+			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, -1.0f,	//13
+			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, -1.0f,	//14
+			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f, -1.0f,	//15
 
-			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,	//16
-			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//17
-			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//18
-			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,	//19
+			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f,	//16
+			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f,	//17
+			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f,	//18
+			x_basis, y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f	//19
 
 		};
 
-		for (int i = 0; i < 20 * 11; ++i)
+		for (int i = 0; i < 20 * 12; ++i)
 			vertices[offset+i] = basis[i];
 
-		for (int i = 0; i < offset/11 + 20; ++i)
-			cout << i << " )  " << vertices[11 * i] << vertices[11 * i+1] << vertices[11 * i+2] << endl;
+		for (int i = 0; i < offset/12 + 20; ++i)
+			cout << i << " )  " << vertices[12 * i] << vertices[12 * i+1] << vertices[12 * i+2] << endl;
 
 		_sleep(1000);
 
 		GLuint basis_indices[10 * 3] = {
 			0, 1, 2,
-			0, 2, 3,	//Podstawa-top
+			0, 2, 3,	//tyl
 			4, 5, 6,
-			4, 6, 7,	//Podstawa-right
+			4, 6, 7,	//gora
 			8, 9, 10,
-			8, 10, 11,	//Podstawa-back
+			8, 10, 11,	//prawy
 			12, 13, 14,
-			13, 14, 15,	//
+			13, 14, 15,	//przod
 			16, 17, 18,
-			16, 18, 19 //Podstawa-front
+			16, 18, 19 //lewy?
 		};
 
 		for (int i = 0; i < 30; ++i)
-			basis_indices[i] += offset / 11;
+			basis_indices[i] += offset / 12;
 
 		for (int i = 0; i < 10 * 3; ++i)
 			indices[++number] = basis_indices[i];
@@ -584,16 +584,20 @@ int main()
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 		// vertex geometry data
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(GLfloat), (GLvoid*)0);
 		glEnableVertexAttribArray(0);
 
 		// vertex color data
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(1);
 
 		 //vertex texture coordinates
-		 glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+		 glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 		 glEnableVertexAttribArray(2);
+
+		 //vertex texture coordinates
+		 glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 12 * sizeof(GLfloat), (GLvoid*)(11 * sizeof(GLfloat)));
+		 glEnableVertexAttribArray(3);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
 
