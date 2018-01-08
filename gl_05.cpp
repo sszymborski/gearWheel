@@ -13,8 +13,8 @@ using namespace std;
 #define MOVE_SPEED 0.3f
 #define RADIUS 3.0f
 
-#define GREY1 0.5f
-#define GREY2 0.7f
+#define GREY1 0.3f
+#define GREY2 0.6f
 
 
 const GLuint WIDTH = 800, HEIGHT = 600;
@@ -42,10 +42,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		 camera_angle_Vertical += 2.5;
 	if (key == GLFW_KEY_DOWN)
 		 camera_angle_Vertical -= 2.5;
-	if (key == GLFW_KEY_MINUS)
-		level /= 2;
+	if (key == GLFW_KEY_MINUS && level >=0.5)
+		level -= 0.5f;
 	if (key == GLFW_KEY_EQUAL)
-		level *= 2;
+		level += 0.5f;
 }
 
 GLuint LoadMipmapTexture(GLuint texId, const char* fname)
@@ -128,9 +128,9 @@ int main()
 		GLfloat sizeGear = 1.5f;
 		GLfloat radius = 1.0f;
 		GLfloat teethSize = 0.2f;
-		GLfloat vertices[12 * (8 * 4 + 1) * 2 * 2 +			34*12 +		 20*12];
+		GLfloat vertices[12 * (8 * 4 + 1) * 2 * 2 +			34*12 +		 20*12		+4*12];
 
-		for (int i = 0; i < 12 * (8 * 4 + 1) * 2 * 2 +		 34 * 12		+20*12 ; ++i)
+		for (int i = 0; i < 12 * (8 * 4 + 1) * 2 * 2 +		 34 * 12		+20*12		+4*12 ; ++i)
 			vertices[i] = 0;
 
 		vertices[32*12] = centerX;
@@ -185,7 +185,7 @@ int main()
 		}
 
 
-		GLuint indices[(3 * 8 * 8 + 3 * 4 * 16)		* 2 +		3 * 16		 + 3 * 16 +		 3 * 16 * 2		+	3*10];
+		GLuint indices[(3 * 8 * 8 + 3 * 4 * 16)		* 2 +		3 * 16		 + 3 * 16 +		 3 * 16 * 2		+	3*10 + 2*3];
 		int number = -1;
 
 		for (int i = 0; i < 16; ++i)
@@ -621,6 +621,45 @@ int main()
 			indices[++number] = basis_indices[i];
 
 
+
+
+
+		offset += 20 * 12;		//pierwszy wolny po platformie, teraz czas na podloge
+
+		for (int i = 0; i < 4; ++i)
+		{
+			vertices[offset + i * 12 + 2] = 3.5f;
+			vertices[offset + i * 12 + 3] = 0.2f;
+			vertices[offset + i * 12 + 4] = 0.2f;
+			vertices[offset + i * 12 + 5] = 0.2f;
+			vertices[offset + i * 12 + 6] = i % 2 ? -10 : 10;
+			vertices[offset + i * 12 + 7] = i < 2 ? -10 : 10;
+			vertices[offset + i * 12 + 11] = 0.5f;
+		}
+
+		GLfloat kwadrat = 20.0f;
+
+		vertices[offset] = kwadrat;
+		vertices[offset + 1] = kwadrat;
+		vertices[offset + 1 * 12] = kwadrat;
+		vertices[offset + 1 * 12 + 1] = -kwadrat;
+		vertices[offset + 2 * 12] = -kwadrat;
+		vertices[offset + 2 * 12 + 1] = -kwadrat;
+		vertices[offset + 3 * 12] = -kwadrat;
+		vertices[offset + 3 * 12 + 1] = kwadrat;
+
+		offset2 = offset / 12;
+
+		indices[++number] = offset2;
+		indices[++number] = offset2+1;
+		indices[++number] = offset2+2;
+
+		indices[++number] = offset2;
+		indices[++number] = offset2+2;
+		indices[++number] = offset2+3;
+
+
+
 //
 		GLuint VBO, EBO, VAO;
 		glGenVertexArrays(1, &VAO);
@@ -667,6 +706,7 @@ int main()
 		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "metal-tekstura.jpg");
 		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "drewno-tekstura.jpg");
 		GLuint texture2 = LoadMipmapTexture(GL_TEXTURE1, "bialy.jpg");
+		GLuint texture3 = LoadMipmapTexture(GL_TEXTURE1, "podloga.jpg");
 
 		// main event loop
 		while (!glfwWindowShouldClose(window))
@@ -691,8 +731,11 @@ int main()
 
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, texture2);
-			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture2"), 1);
+			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture2"), 2);
 			
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, texture3);
+			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture3"), 3);
 
 
 
