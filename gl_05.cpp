@@ -14,7 +14,11 @@ using namespace std;
 #define RADIUS 3.0f
 
 const GLuint WIDTH = 800, HEIGHT = 600;
-GLfloat posX = 0.0f, posY = 5.0f, posZ = -10.0f, lookX = posX, lookY = posY-sin(glm::radians(70.0)), lookZ = posZ + 3.0f, lookAngleH = 90.0f, lookAngleV = 0.0f;
+//GLfloat posX = 0.0f, posY = 5.0f, posZ = -10.0f, lookX = posX, lookY = posY-sin(glm::radians(70.0)), lookZ = posZ + 3.0f, lookAngleH = 90.0f, lookAngleV = 0.0f;
+
+static GLfloat camera_angle_Horizontal = 0.0f;
+static GLfloat camera_angle_Vertical = 0.0f;
+
 
 static bool directionDown = true;
 
@@ -24,119 +28,20 @@ static GLfloat level = 2;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
-	//cout << "key: " << key << endl;
-
-	if (action == GLFW_PRESS || action == GLFW_REPEAT)
-	{
-		GLfloat trans;
-		bool move = false;
-
-		switch (key)
-		{
-		case GLFW_KEY_W:
-			trans = MOVE_SPEED * cos(glm::radians(lookAngleH));
-			posX += trans;
-			lookX += trans;
-			trans = MOVE_SPEED * sin(glm::radians(lookAngleH));
-			posZ += trans;
-			lookZ += trans;
-			move = true;
-			break;
-
-		case GLFW_KEY_S:
-			trans = MOVE_SPEED * cos(glm::radians(lookAngleH));
-			posX -= trans;
-			lookX -= trans;
-			trans = MOVE_SPEED * sin(glm::radians(lookAngleH));
-			posZ -= trans;
-			lookZ -= trans;
-			move = true;
-			break;
-
-		case GLFW_KEY_A:
-			trans = MOVE_SPEED * cos(glm::radians(lookAngleH - 90.0f));
-			posX += trans;
-			lookX += trans;
-			trans = MOVE_SPEED * sin(glm::radians(lookAngleH - 90.0f));
-			posZ += trans;
-			lookZ += trans;
-			move = true;
-			break;
-
-		case GLFW_KEY_D:
-			trans = MOVE_SPEED * cos(glm::radians(lookAngleH + 90.0f));
-			posX += trans;
-			lookX += trans;
-			trans = MOVE_SPEED * sin(glm::radians(lookAngleH + 90.0f));
-			posZ += trans;
-			lookZ += trans;
-			move = true;
-			break;
-
-		case GLFW_KEY_R:
-			posY += MOVE_SPEED;
-			lookY += MOVE_SPEED;
-			move = true;
-			break;
-
-		case GLFW_KEY_F:
-			posY -= MOVE_SPEED;
-			lookY -= MOVE_SPEED;
-			move = true;
-			break;
-
-		case GLFW_KEY_RIGHT:
-			lookAngleH = (lookAngleH > 360.0f ? (lookAngleH - 355.0f) : (lookAngleH + 5.0f));
-			trans = (RADIUS * cos(glm::radians(lookAngleV)));
-			lookX = posX + trans * cos(glm::radians(lookAngleH));
-			lookZ = posZ + trans * sin(glm::radians(lookAngleH));
-			break;
-
-		case GLFW_KEY_LEFT:
-			lookAngleH = (lookAngleH < -360.0f ? (lookAngleH + 355.0f) : (lookAngleH - 5.0f));
-			trans = (RADIUS * cos(glm::radians(lookAngleV)));
-			lookX = posX + trans * cos(glm::radians(lookAngleH));
-			lookZ = posZ + trans * sin(glm::radians(lookAngleH));
-			break;
-
-		case GLFW_KEY_UP:
-			if (lookAngleV < 90.0f)
-			{
-				lookAngleV += 5.0f;
-				trans = (RADIUS * cos(glm::radians(lookAngleV)));
-				lookY = posY + RADIUS * sin(glm::radians(lookAngleV));
-				lookX = posX + trans * cos(glm::radians(lookAngleH));
-				lookZ = posZ + trans * sin(glm::radians(lookAngleH));
-			}
-			break;
-
-		case GLFW_KEY_DOWN:
-			if (lookAngleV > -90.0f)
-			{
-				lookAngleV -= 5.0f;
-				trans = (RADIUS * cos(glm::radians(lookAngleV)));
-				lookY = posY + RADIUS * sin(glm::radians(lookAngleV));
-				lookX = posX + trans * cos(glm::radians(lookAngleH));
-				lookZ = posZ + trans * sin(glm::radians(lookAngleH));
-			}
-			break;
-
-		case GLFW_KEY_ESCAPE:
-			glfwSetWindowShouldClose(window, GL_TRUE);
-			break;
-		case GLFW_KEY_MINUS:
-				level /= 2;
-				break;
-		case GLFW_KEY_EQUAL:
-					level *= 2;
-					break;
-
-		default:
-			break;
-		}
-		if (move)
-			cout << "x: " << posX << " y: " << posY << " z: " << posZ << endl;
-	}
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		 glfwSetWindowShouldClose(window, GL_TRUE);
+	if (key == GLFW_KEY_RIGHT)
+		camera_angle_Horizontal += 2.5;
+	if (key == GLFW_KEY_LEFT)
+		 camera_angle_Horizontal -= 2.5;
+	if (key == GLFW_KEY_UP && camera_angle_Vertical < 85.0)
+		 camera_angle_Vertical += 2.5;
+	if (key == GLFW_KEY_DOWN)
+		 camera_angle_Vertical -= 2.5;
+	if (key == GLFW_KEY_MINUS)
+		level /= 2;
+	if (key == GLFW_KEY_EQUAL)
+		level *= 2;
 }
 
 GLuint LoadMipmapTexture(GLuint texId, const char* fname)
@@ -594,10 +499,10 @@ int main()
 			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//10
 			-x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,	//11
 
-			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//12
-			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//13
-			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//14
-			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//15
+			-x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//12
+			-x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//13
+			x_basis, -y_basis, -z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//14
+			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,	//15
 
 			x_basis, y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//16
 			x_basis, -y_basis, z_basis, 0.4f, 0.4f, 0.4f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,	//17
@@ -622,7 +527,7 @@ int main()
 			8, 9, 10,
 			8, 10, 11,	//Podstawa-back
 			12, 13, 14,
-			12, 14, 15,	//
+			13, 14, 15,	//
 			16, 17, 18,
 			16, 18, 19 //Podstawa-front
 		};
@@ -819,27 +724,71 @@ int main()
 
 
 
-			//----------------
-			//glm::mat4 camRot;
-			//camRot = glm::rotate(camRot, glm::radians(rot_angle), glm::vec3(0.0f, 1.0f, 0.0f));
-			//glm::vec3 cameraPos = glm::vec3(camRot * glm::vec4(0.0f, 0.0f, -3.0f, 1.0f));
-			glm::vec3 cameraPos = glm::vec3(posX, posY, posZ);
 
-			glUniform3fv(glGetUniformLocation(theProgram.get_programID(), "viewPos"), 1, glm::value_ptr(cameraPos)); //chyba niepotrzebne
-			//----------------
 
-			glm::mat4 view;
+
+
+			GLfloat camera_rot_angle = 0.0f;
+
+			glm::mat4 camRot;
+			camRot = glm::rotate(camRot, glm::radians(camera_rot_angle), glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::vec3 cameraPos = glm::vec3(camRot * glm::vec4(0.0f, 0.0f, -3.0f, 1.0f));
+			
+				glUniform3fv(glGetUniformLocation(theProgram.get_programID(), "viewPos"), 1, glm::value_ptr(cameraPos)); //chyba niepotrzebne
+						//----------------
+				
+				glm::mat4 view;
 			glm::mat4 projection;
 
-			//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f)); //to zamiast glm::lookAt i linijek miedzy kreskami
-			//view = glm::lookAt(cameraPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			view = glm::lookAt(cameraPos, glm::vec3(lookX, lookY, lookZ), glm::vec3(0.0f, 1.0f, 0.0f));
-			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
-			GLint viewLoc = glGetUniformLocation(theProgram.get_programID(), "view");
+
+			if (camera_angle_Horizontal >= 360.0f || camera_angle_Horizontal <= -360.0f)
+				 camera_angle_Horizontal = 0.0f;
+			if (camera_angle_Vertical >= 360.0f || camera_angle_Vertical <= -360.0f)
+				 camera_angle_Vertical = 0.0f;
+
+			camRot = glm::rotate(camRot, glm::radians(camera_angle_Horizontal), glm::vec3(0.0, 1.0, 0.0));
+			camRot = glm::rotate(camRot, glm::radians(camera_angle_Vertical), glm::vec3(1.0, 0.0, 0.0));
+			cameraPos = glm::vec3(camRot * glm::vec4(0.0f, 0.0f, -20.0f, 1.0f));
+						//glm::mat4 view;
+							//glm::mat4 projection;
+				view = glm::lookAt(cameraPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+			
+				
+				
+							////
+				GLint viewLoc = glGetUniformLocation(theProgram.get_programID(), "view");
 			GLint projectionLoc = glGetUniformLocation(theProgram.get_programID(), "projection");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 			glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+
+
+
+
+
+			////----------------
+			////glm::mat4 camRot;
+			////camRot = glm::rotate(camRot, glm::radians(rot_angle), glm::vec3(0.0f, 1.0f, 0.0f));
+			////glm::vec3 cameraPos = glm::vec3(camRot * glm::vec4(0.0f, 0.0f, -3.0f, 1.0f));
+			//glm::vec3 cameraPos = glm::vec3(posX, posY, posZ);
+
+			//glUniform3fv(glGetUniformLocation(theProgram.get_programID(), "viewPos"), 1, glm::value_ptr(cameraPos)); //chyba niepotrzebne
+			////----------------
+
+			//glm::mat4 view;
+			//glm::mat4 projection;
+
+			////view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f)); //to zamiast glm::lookAt i linijek miedzy kreskami
+			////view = glm::lookAt(cameraPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			//view = glm::lookAt(cameraPos, glm::vec3(lookX, lookY, lookZ), glm::vec3(0.0f, 1.0f, 0.0f));
+			//projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+
+			//GLint viewLoc = glGetUniformLocation(theProgram.get_programID(), "view");
+			//GLint projectionLoc = glGetUniformLocation(theProgram.get_programID(), "projection");
+			//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+			//glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 
 
