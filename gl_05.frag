@@ -20,13 +20,13 @@ void main()
    if(TexID < -0.6f)
 		color = vec4(vecColor, 1.0f) * mix(texture(Texture0, TexCoord), texture(Texture1, TexCoord), 0.01); // metal
 	else if(TexID > 0.6f)
-		color = vec4(vecColor, 1.0f) * mix(texture(Texture0, TexCoord), texture(Texture1, TexCoord), 0.99);
+		color = vec4(vecColor, 1.0f) * mix(texture(Texture0, TexCoord), texture(Texture1, TexCoord), 0.99);	//drzewo
 	else if(TexID > 0.4f)
 		color = vec4(vecColor, 1.0f) * mix(texture(Texture3, TexCoord), texture(Texture1, TexCoord), 0.01); // podloga
-	else if(TexID < 0.0f)
-		color = vec4(vecColor, 1.0f) * mix(texture(Texture4, TexCoord), texture(Texture1, TexCoord), 0.01); // podloga
+	else if(TexID == - 0.5f)
+		color = vec4(vecColor, 1.0f) * mix(texture(Texture4, TexCoord), texture(Texture1, TexCoord), 0.01); // skybox
 	else
-	color = vec4(vecColor, 1.0f) * mix(texture(Texture2, TexCoord), texture(Texture0, TexCoord), 0.01);
+	color = vec4(vecColor, 1.0f) * mix(texture(Texture2, TexCoord), texture(Texture0, TexCoord), 0.01);	//bialy
 
 
 

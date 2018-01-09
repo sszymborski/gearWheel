@@ -32,7 +32,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		camera_angle_Horizontal -= 2.5;
 	if (key == GLFW_KEY_UP && camera_angle_Vertical < 85.0)
 		camera_angle_Vertical += 2.5;
-	if (key == GLFW_KEY_DOWN )// camera_angle_Vertical >-5.0)
+	if (key == GLFW_KEY_DOWN && camera_angle_Vertical >-5.0)
 		camera_angle_Vertical -= 2.5;
 	if (key == GLFW_KEY_MINUS && level >= 0.5)
 		level -= 0.5f;
@@ -567,8 +567,8 @@ int main()
 			vertices[offset + i * 12 + 3] = 0.2f;
 			vertices[offset + i * 12 + 4] = 0.2f;
 			vertices[offset + i * 12 + 5] = 0.2f;
-			vertices[offset + i * 12 + 6] = i % 2 ? -10 : 10;
-			vertices[offset + i * 12 + 7] = i < 2 ? -10 : 10;
+			vertices[offset + i * 12 + 6] = i < 2 ? 1 : 0;
+			vertices[offset + i * 12 + 7] = 0;
 			vertices[offset + i * 12 + 11] = 0.5f;
 		}
 
@@ -582,6 +582,10 @@ int main()
 		vertices[offset + 2 * 12 + 1] = -kwadrat;
 		vertices[offset + 3 * 12] = -kwadrat;
 		vertices[offset + 3 * 12 + 1] = kwadrat;
+
+
+		vertices[offset +  7] = 1;
+		vertices[offset + 3 * 12 + 7] =  1;
 
 		offset2 = offset / 12;
 
