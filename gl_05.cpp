@@ -12,6 +12,7 @@ using namespace std;
 
 #define GREY1 0.3f
 #define GREY2 0.6f
+#define BOX 50.0f
 
 const GLuint WIDTH = 800, HEIGHT = 600;
 static GLfloat camera_angle_Horizontal = 0.0f;
@@ -30,7 +31,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		camera_angle_Horizontal -= 2.5;
 	if (key == GLFW_KEY_UP && camera_angle_Vertical < 85.0)
 		camera_angle_Vertical += 2.5;
-	if (key == GLFW_KEY_DOWN && camera_angle_Vertical >-5.0)
+	if (key == GLFW_KEY_DOWN )// camera_angle_Vertical >-5.0)
 		camera_angle_Vertical -= 2.5;
 	if (key == GLFW_KEY_MINUS && level >= 0.5)
 		level -= 0.5f;
@@ -117,9 +118,9 @@ int main()
 		GLfloat sizeGear = 1.5f;
 		GLfloat radius = 1.0f;
 		GLfloat teethSize = 0.2f;
-		GLfloat vertices[12 * (8 * 4 + 1) * 2 * 2 + 34 * 12 + 20 * 12 + 4 * 12];
+		GLfloat vertices[12 * (8 * 4 + 1) * 2 * 2 +		 34 * 12 +		20 * 12 +		4 * 12 +	20 * 12];
 
-		for (int i = 0; i < 12 * (8 * 4 + 1) * 2 * 2 + 34 * 12 + 20 * 12 + 4 * 12; ++i)
+		for (int i = 0; i < 12 * (8 * 4 + 1) * 2 * 2 + 34 * 12 + 20 * 12 + 4 * 12 + 20 * 12; ++i)
 			vertices[i] = 0;
 
 		vertices[32 * 12] = centerX;
@@ -168,7 +169,7 @@ int main()
 			angle += 360.0 / 16.0;
 		}
 
-		GLuint indices[(3 * 8 * 8 + 3 * 4 * 16) * 2 + 3 * 16 + 3 * 16 + 3 * 16 * 2 + 3 * 10 + 2 * 3];
+		GLuint indices[(3 * 8 * 8 + 3 * 4 * 16) * 2 +		3 * 16 +		 3 * 16 +			 3 * 16 * 2 +		 3 * 10 +		 2 * 3		+3*10];
 		int number = -1;
 
 		for (int i = 0; i < 16; ++i)
@@ -562,6 +563,8 @@ int main()
 
 		offset2 = offset / 12;
 
+		offset += 4 * 12;
+
 		indices[++number] = offset2;
 		indices[++number] = offset2 + 1;
 		indices[++number] = offset2 + 2;
@@ -569,6 +572,79 @@ int main()
 		indices[++number] = offset2;
 		indices[++number] = offset2 + 2;
 		indices[++number] = offset2 + 3;
+
+
+
+		GLfloat box[20 * 12] =
+		{
+			BOX, BOX, BOX, 0.4f, 0.4f, 0.4f, 0.25f, 0.66666f, 0.0f, -1.0f, 0.0f, -0.5f,	//0
+			BOX, BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.25f, 0.33333f, 0.0f, -1.0f, 0.0f, -0.5f,	//1
+			-BOX, BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.5f, 0.33333f, 0.0f, -1.0f, 0.0f, -0.5f,	//2
+			-BOX, BOX, BOX, 0.4f, 0.4f, 0.4f, 0.5f, 0.66666f, 0.0f, -1.0f, 0.0f, -0.5f,	//3
+
+			BOX, BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.25f, 0.33333f, 0.0f, 0.0f, 1.0f, -0.5f,	//4
+			BOX, -BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.25f, 0.0f, 0.0f, 0.0f, 1.0f, -0.5f,	//5
+			-BOX, -BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, -0.5f,	//6
+			-BOX, BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.5f, 0.33333f, 0.0f, 0.0f, 1.0f, -0.5f,	//7
+
+			-BOX, BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.5f, 0.33333f, -1.0f, 0.0f, 0.0f, -0.5f,	//8
+			-BOX, -BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.75f, 0.33333f, -1.0f, 0.0f, 0.0f, -0.5f,	//9
+			-BOX, -BOX, BOX, 0.4f, 0.4f, 0.4f, 0.75f, 0.66666f, -1.0f, 0.0f, 0.0f, -0.5f,	//10
+			-BOX, BOX, BOX, 0.4f, 0.4f, 0.4f, 0.5f, 0.66666f, -1.0f, 0.0f, 0.0f, -0.5f,	//11
+
+			-BOX, -BOX, -BOX, 0.4f, 0.4f, 0.4f,0.75f, 0.33333f, 0.0f, 1.0f, 0.0f, -0.5f,	//12
+			-BOX, -BOX, BOX, 0.4f, 0.4f, 0.4f, 0.75f, 0.66666f, 0.0f, 1.0f, 0.0f, -0.5f,	//13
+			BOX, -BOX, -BOX, 0.4f, 0.4f, 0.4f, 1.0f, 0.33333f, 0.0f, 1.0f, 0.0f, -0.5f,	//14
+			BOX, -BOX, BOX, 0.4f, 0.4f, 0.4f, 1.0f, 0.66666f, 0.0f, 1.0f, 0.0f, -0.5f,	//15
+
+			BOX, BOX, BOX, 0.4f, 0.4f, 0.4f, 0.25f, 0.66666f, 1.0f, 0.0f, 0.0f, -0.5f,	//16
+			BOX, -BOX, BOX, 0.4f, 0.4f, 0.4f, 0.0f, 0.66666f, 1.0f, 0.0f, 0.0f, -0.5f,	//17
+			BOX, -BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.0f, 0.33333f, 1.0f, 0.0f, 0.0f, -0.5f,	//18
+			BOX, BOX, -BOX, 0.4f, 0.4f, 0.4f, 0.25f, 0.33333f, 1.0f, 0.0f, 0.0f, -0.5f	//19
+		};
+
+		for (int i = 0; i < 20 * 12; ++i)
+			vertices[offset + i] = box[i];
+
+
+		GLuint box_indices[10 * 3] =
+		{
+			0, 1, 2,
+			0, 2, 3,	//tyl
+			4, 5, 6,
+			4, 6, 7,	//gora
+			8, 9, 10,
+			8, 10, 11,	//prawy
+			12, 13, 14,
+			13, 14, 15,	//przod
+			16, 17, 18,
+			16, 18, 19 //lewy?
+		};
+
+		for (int i = 0; i < 30; ++i)
+			box_indices[i] += offset / 12;
+
+		for (int i = 0; i < 10 * 3; ++i)
+			indices[++number] = box_indices[i];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		GLuint VBO, EBO, VAO;
 		glGenVertexArrays(1, &VAO);
@@ -614,8 +690,10 @@ int main()
 		// prepare textures
 		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "metal-tekstura.jpg");
 		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "drewno-tekstura.jpg");
-		GLuint texture2 = LoadMipmapTexture(GL_TEXTURE1, "bialy.jpg");
-		GLuint texture3 = LoadMipmapTexture(GL_TEXTURE1, "podloga.jpg");
+		GLuint texture2 = LoadMipmapTexture(GL_TEXTURE2, "bialy.jpg");
+		GLuint texture3 = LoadMipmapTexture(GL_TEXTURE3, "podloga.jpg");
+		GLuint texture4 = LoadMipmapTexture(GL_TEXTURE4, "otoczenie2.jpg");
+
 
 		// main event loop
 		while (!glfwWindowShouldClose(window))
@@ -645,6 +723,10 @@ int main()
 			glActiveTexture(GL_TEXTURE3);
 			glBindTexture(GL_TEXTURE_2D, texture3);
 			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture3"), 3);
+
+			glActiveTexture(GL_TEXTURE4);
+			glBindTexture(GL_TEXTURE_2D, texture4);
+			glUniform1i(glGetUniformLocation(theProgram.get_programID(), "Texture4"), 4);
 
 			glm::mat4 trans;
 			static GLfloat rot_angle = 0.0f;
