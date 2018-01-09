@@ -13,12 +13,13 @@ using namespace std;
 #define GREY1 0.3f
 #define GREY2 0.6f
 #define BOX 50.0f
+#define ANGLE_NUMBER 16
 
 const GLuint WIDTH = 800, HEIGHT = 600;
 static GLfloat camera_angle_Horizontal = 0.0f;
 static GLfloat camera_angle_Vertical = 0.0f;
-static GLfloat startAngle = 360.0 / 16.0;
-static GLfloat level = 2;
+static GLfloat startAngle = 360.0f / ANGLE_NUMBER;
+static GLfloat level = 2.0f;
 static bool directionDown = true;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -118,199 +119,221 @@ int main()
 		GLfloat sizeGear = 1.5f;
 		GLfloat radius = 1.0f;
 		GLfloat teethSize = 0.2f;
-		GLfloat vertices[12 * (8 * 4 + 1) * 2 * 2 +		 34 * 12 +		20 * 12 +		4 * 12 +	20 * 12];
+		GLfloat vertices[12 * (ANGLE_NUMBER*2 + 1) * 2 * 2 +		 34 * 12 +		20 * 12 +		4 * 12 +	20 * 12];
+		//dwa kola
+		//walec
+		//podstawa
+		//podloga
+		//skybox
 
-		for (int i = 0; i < 12 * (8 * 4 + 1) * 2 * 2 + 34 * 12 + 20 * 12 + 4 * 12 + 20 * 12; ++i)
+		for (int i = 0; i < 12 * (ANGLE_NUMBER * 2 + 1) * 2 * 2 + 34 * 12 + 20 * 12 + 4 * 12 + 20 * 12; ++i)
 			vertices[i] = 0;
+		//srodki kola zebatego
+		vertices[ANGLE_NUMBER * 2 * 12] = centerX;
+		vertices[ANGLE_NUMBER * 2 * 12 + 1] = centerY;
+		vertices[ANGLE_NUMBER * 2 * 12 + 2] = centerZ;
+		vertices[ANGLE_NUMBER * 2 * 12 + 3] = GREY1;
+		vertices[ANGLE_NUMBER * 2 * 12 + 4] = GREY1;
+		vertices[ANGLE_NUMBER * 2 * 12 + 5] = GREY1;
 
-		vertices[32 * 12] = centerX;
-		vertices[32 * 12 + 1] = centerY;
-		vertices[32 * 12 + 2] = centerZ;
-		vertices[32 * 12 + 3] = GREY1;
-		vertices[32 * 12 + 4] = GREY1;
-		vertices[32 * 12 + 5] = GREY1;
-
-		vertices[32 * 12 + 33 * 12] = centerX;
-		vertices[32 * 12 + 1 + 33 * 12] = centerY;
-		vertices[32 * 12 + 2 + 33 * 12] = centerZ + sizeGear;
-		vertices[32 * 12 + 3 + 33 * 12] = GREY2;
-		vertices[32 * 12 + 4 + 33 * 12] = GREY2;
-		vertices[32 * 12 + 5 + 33 * 12] = GREY2;
+		vertices[ANGLE_NUMBER * 2 * 12 + (ANGLE_NUMBER * 2+1) * 12] = centerX;
+		vertices[ANGLE_NUMBER * 2 * 12 + 1 + (ANGLE_NUMBER * 2 + 1) * 12] = centerY;
+		vertices[ANGLE_NUMBER * 2 * 12 + 2 + (ANGLE_NUMBER * 2 + 1) * 12] = centerZ + sizeGear;
+		vertices[ANGLE_NUMBER * 2 * 12 + 3 + (ANGLE_NUMBER * 2 + 1) * 12] = GREY2;
+		vertices[ANGLE_NUMBER * 2 * 12 + 4 + (ANGLE_NUMBER * 2 + 1) * 12] = GREY2;
+		vertices[ANGLE_NUMBER * 2 * 12 + 5 + (ANGLE_NUMBER * 2 + 1) * 12] = GREY2;
 
 		static GLfloat angle = startAngle;
-
-		for (int i = 0; i < 16; ++i)
+		//punkty brzegowe pierwszego kola zebatego
+		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
-			vertices[24 * i] = vertices[24 * i + 33 * 12] = cos(glm::radians(angle))*radius + centerX;
-			vertices[24 * i + 1] = vertices[33 * 12 + 24 * i + 1] = sin(glm::radians(angle))*radius + centerY;
+			vertices[24 * i] = vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i] = cos(glm::radians(angle))*radius + centerX;
+			vertices[24 * i + 1] = vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 1] = sin(glm::radians(angle))*radius + centerY;
 			vertices[24 * i + 2] = 0 + centerZ;
 			vertices[24 * i + 3] = GREY1;		//R
 			vertices[24 * i + 4] = GREY1;		//G
 			vertices[24 * i + 5] = GREY1;		//B
 
-			vertices[24 * i + 12] = vertices[33 * 12 + 24 * i + 12] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
-			vertices[24 * i + 13] = vertices[33 * 12 + 24 * i + 13] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
+			vertices[24 * i + 12] = vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 12] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
+			vertices[24 * i + 13] = vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 13] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
 			vertices[24 * i + 14] = 0 + centerZ;
 			vertices[24 * i + 15] = GREY1;
 			vertices[24 * i + 16] = GREY1;
 			vertices[24 * i + 17] = GREY1;
 
-			vertices[33 * 12 + 24 * i + 2] = sizeGear + centerZ;
-			vertices[33 * 12 + 24 * i + 14] = sizeGear + centerZ;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 2] = sizeGear + centerZ;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 14] = sizeGear + centerZ;
 
-			vertices[33 * 12 + 24 * i + 3] = GREY2;// 1;
-			vertices[33 * 12 + 24 * i + 4] = GREY2;// 1;
-			vertices[33 * 12 + 24 * i + 5] = GREY2;// 1;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 3] = GREY2;// 1;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 4] = GREY2;// 1;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 5] = GREY2;// 1;
 
-			vertices[33 * 12 + 24 * i + 15] = GREY2;// 1;
-			vertices[33 * 12 + 24 * i + 16] = GREY2;// 1;
-			vertices[33 * 12 + 24 * i + 17] = GREY2;// 1;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 15] = GREY2;// 1;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 16] = GREY2;// 1;
+			vertices[(ANGLE_NUMBER * 2 + 1) * 12 + 24 * i + 17] = GREY2;// 1;
 
-			angle += 360.0 / 16.0;
+			angle += 360.0 / ANGLE_NUMBER;
 		}
 
-		GLuint indices[(3 * 8 * 8 + 3 * 4 * 16) * 2 +		3 * 16 +		 3 * 16 +			 3 * 16 * 2 +		 3 * 10 +		 2 * 3		+3*10];
+		GLuint indices[(3 * (4 * ANGLE_NUMBER + 4 * ANGLE_NUMBER)) * 2 +		3 * 16 +		 3 * 16 +			 3 * 16 * 2 +		 3 * 10 +		 2 * 3		+3*10];
 		int number = -1;
 
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < ((3 * (4 * ANGLE_NUMBER + 4 * ANGLE_NUMBER)) * 2 + 3 * 16 + 3 * 16 + 3 * 16 * 2 + 3 * 10 + 2 * 3 + 3 * 10); ++i)
+			indices[i] = 0;
+
+		//oba kola zebate
+		//16 - podstawa walca
+		//16 - podstawa walca
+		//32 - boki walca
+		//3 - podstawa
+		//2 - podloga
+		//10 - skybox
+
+		//krawedzie kola zebatego
+		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
 			indices[++number] = 2 * i;
-			indices[++number] = (2 * (i + 1)) % 32;
-			indices[++number] = 32;
+			indices[++number] = (2 * (i + 1)) % (2*ANGLE_NUMBER);
+			indices[++number] = 2*ANGLE_NUMBER;
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
 			indices[++number] = 4 * i;
 			indices[++number] = 4 * i + 1;
 			indices[++number] = 4 * i + 2;
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
 			indices[++number] = 4 * i + 1;
 			indices[++number] = 4 * i + 2;
 			indices[++number] = 4 * i + 3;
 		}
 
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
-			indices[++number] = 33 + 2 * i;
-			indices[++number] = 33 + (2 * (i + 1)) % 32;
-			indices[++number] = 33 + 32;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 2 * i;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + (2 * (i + 1)) % (2*ANGLE_NUMBER);
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 2*ANGLE_NUMBER;
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
-			indices[++number] = 33 + 4 * i;
-			indices[++number] = 33 + 4 * i + 1;
-			indices[++number] = 33 + 4 * i + 2;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 4 * i;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 4 * i + 1;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 4 * i + 2;
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
-			indices[++number] = 33 + 4 * i + 1;
-			indices[++number] = 33 + 4 * i + 2;
-			indices[++number] = 33 + 4 * i + 3;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 4 * i + 1;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 4 * i + 2;
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + 4 * i + 3;
 		}
 
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
 			indices[++number] = 4 * i;
 			indices[++number] = 4 * i + 1;
-			indices[++number] = 4 * i + 33;
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 1);
 
 			indices[++number] = 4 * i + 1;
-			indices[++number] = 4 * i + 33;
-			indices[++number] = 4 * i + 34;
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 1);
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 2);
 
 			indices[++number] = 4 * i + 1;
 			indices[++number] = 4 * i + 3;
-			indices[++number] = 4 * i + 34;
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 2);
 
 			indices[++number] = 4 * i + 3;
-			indices[++number] = 4 * i + 34;
-			indices[++number] = 4 * i + 36;
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 2);
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 4);
 
 			indices[++number] = 4 * i + 2;
 			indices[++number] = 4 * i + 3;
-			indices[++number] = 4 * i + 35;
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 3);
 
 			indices[++number] = 4 * i + 3;
-			indices[++number] = 4 * i + 35;
-			indices[++number] = 4 * i + 36;
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 3);
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 4);
 
 			indices[++number] = 4 * i + 2;
-			indices[++number] = (4 * i + 4) % 32;
-			indices[++number] = 4 * i + 35;
+			indices[++number] = (4 * i + 4) % (2*ANGLE_NUMBER);
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 3);
 
-			indices[++number] = (4 * i + 4) % 32;
-			indices[++number] = 4 * i + 35;
-			indices[++number] = 33 + (4 * i + 4) % 32;
+			indices[++number] = (4 * i + 4) % (2*ANGLE_NUMBER);
+			indices[++number] = 4 * i + (2 * ANGLE_NUMBER + 3);
+			indices[++number] = (2 * ANGLE_NUMBER + 1) + (4 * i + 4) % (2*ANGLE_NUMBER);
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		GLint offset = 12 * (8 * 4 + 1) * 2;
+		//teraz drugie kolo zebate
+
+		GLint offset = 12 * (2*ANGLE_NUMBER + 1) * 2;
 
 		centerX = 2.7f;
 
-		vertices[offset + 32 * 12] = centerX;
-		vertices[offset + 32 * 12 + 1] = centerY;
-		vertices[offset + 32 * 12 + 2] = centerZ;
-		vertices[offset + 32 * 12 + 3] = GREY1;
-		vertices[offset + 32 * 12 + 4] = GREY1;
-		vertices[offset + 32 * 12 + 5] = GREY1;
 
-		vertices[offset + 32 * 12 + 33 * 12] = centerX;
-		vertices[offset + 32 * 12 + 33 * 12 + 1] = centerY;
-		vertices[offset + 32 * 12 + 33 * 12 + 2] = centerZ + sizeGear;
-		vertices[offset + 32 * 12 + 33 * 12 + 3] = GREY2;
-		vertices[offset + 32 * 12 + 33 * 12 + 4] = GREY2;
-		vertices[offset + 32 * 12 + 33 * 12 + 5] = GREY2;
+		//wierzcholki w srodku kola z obu stron
+		vertices[offset + (2*ANGLE_NUMBER) * 12] = centerX;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + 1] = centerY;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + 2] = centerZ;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + 3] = GREY1;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + 4] = GREY1;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + 5] = GREY1;
+
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + (2 * ANGLE_NUMBER + 1) * 12] = centerX;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + (2 * ANGLE_NUMBER + 1) * 12 + 1] = centerY;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + (2 * ANGLE_NUMBER + 1) * 12 + 2] = centerZ + sizeGear;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + (2 * ANGLE_NUMBER + 1) * 12 + 3] = GREY2;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + (2 * ANGLE_NUMBER + 1) * 12 + 4] = GREY2;
+		vertices[offset + (2 * ANGLE_NUMBER) * 12 + (2 * ANGLE_NUMBER + 1) * 12 + 5] = GREY2;
 
 		angle = startAngle;
 
-		for (int i = 0; i < 16; ++i)
+		//wierzcholki na brzegu kola z obu stron
+		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
-			vertices[offset + 24 * i] = vertices[offset + 24 * i + 33 * 12] = cos(glm::radians(angle))*radius + centerX;
-			vertices[offset + 24 * i + 1] = vertices[offset + 33 * 12 + 24 * i + 1] = sin(glm::radians(angle))*radius + centerY;
+			vertices[offset + 24 * i] = vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i] = cos(glm::radians(angle))*radius + centerX;
+			vertices[offset + 24 * i + 1] = vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 1] = sin(glm::radians(angle))*radius + centerY;
 			vertices[offset + 24 * i + 2] = 0 + centerZ;
 			vertices[offset + 24 * i + 3] = GREY1;
 			vertices[offset + 24 * i + 4] = GREY1;
 			vertices[offset + 24 * i + 5] = GREY1;
 
-			vertices[offset + 24 * i + 12] = vertices[offset + 33 * 12 + 24 * i + 12] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
-			vertices[offset + 24 * i + 13] = vertices[offset + 33 * 12 + 24 * i + 13] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
+			vertices[offset + 24 * i + 12] = vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 12] = cos(glm::radians(angle))*(radius + teethSize) + centerX;
+			vertices[offset + 24 * i + 13] = vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 13] = sin(glm::radians(angle))*(radius + teethSize) + centerY;
 			vertices[offset + 24 * i + 14] = 0 + centerZ;
 			vertices[offset + 24 * i + 15] = GREY1;
 			vertices[offset + 24 * i + 16] = GREY1;
 			vertices[offset + 24 * i + 17] = GREY1;
 
-			vertices[offset + 33 * 12 + 24 * i + 2] = sizeGear + centerZ;
-			vertices[offset + 33 * 12 + 24 * i + 14] = sizeGear + centerZ;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 2] = sizeGear + centerZ;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 14] = sizeGear + centerZ;
 
-			vertices[offset + 33 * 12 + 24 * i + 3] = GREY2;
-			vertices[offset + 33 * 12 + 24 * i + 4] = GREY2;
-			vertices[offset + 33 * 12 + 24 * i + 5] = GREY2;
-			vertices[offset + 33 * 12 + 24 * i + 15] = GREY2;
-			vertices[offset + 33 * 12 + 24 * i + 16] = GREY2;
-			vertices[offset + 33 * 12 + 24 * i + 17] = GREY2;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 3] = GREY2;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 4] = GREY2;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 5] = GREY2;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 15] = GREY2;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 16] = GREY2;
+			vertices[offset + (2 * ANGLE_NUMBER + 1) * 12 + 24 * i + 17] = GREY2;
 
-			angle += 360.0 / 16.0;
+			angle += 360.0 / ANGLE_NUMBER;
 		}
 
-		int offset2 = 66;
+		int offset2 = (ANGLE_NUMBER*2 + 1) * 2;
 
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
 			indices[++number] = offset2 + 2 * i;
-			indices[++number] = offset2 + (2 * (i + 1)) % 32;
-			indices[++number] = offset2 + 32;
+			indices[++number] = offset2 + (2 * (i + 1)) % (2*ANGLE_NUMBER);
+			indices[++number] = offset2 + (2*ANGLE_NUMBER);
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
 			indices[++number] = offset2 + 4 * i;
 			indices[++number] = offset2 + 4 * i + 1;
 			indices[++number] = offset2 + 4 * i + 2;
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
 			indices[++number] = offset2 + 4 * i + 1;
 			indices[++number] = offset2 + 4 * i + 2;
@@ -318,64 +341,64 @@ int main()
 		}
 
 
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
-			indices[++number] = offset2 + 33 + 2 * i;
-			indices[++number] = offset2 + 33 + (2 * (i + 1)) % 32;
-			indices[++number] = offset2 + 33 + 32;
+			indices[++number] = offset2 + (2*ANGLE_NUMBER+1) + 2 * i;
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + (2 * (i + 1)) % (2 * ANGLE_NUMBER);
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + (2 * ANGLE_NUMBER );
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
-			indices[++number] = offset2 + 33 + 4 * i;
-			indices[++number] = offset2 + 33 + 4 * i + 1;
-			indices[++number] = offset2 + 33 + 4 * i + 2;
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i;
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i + 1;
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i + 2;
 		}
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
-			indices[++number] = offset2 + 33 + 4 * i + 1;
-			indices[++number] = offset2 + 33 + 4 * i + 2;
-			indices[++number] = offset2 + 33 + 4 * i + 3;
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i + 1;
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i + 2;
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i + 3;
 		}
 
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i < ANGLE_NUMBER/2; ++i)
 		{
 			indices[++number] = offset2 + 4 * i;
 			indices[++number] = offset2 + 4 * i + 1;
-			indices[++number] = offset2 + 4 * i + 33;
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 1);
 
 			indices[++number] = offset2 + 4 * i + 1;
-			indices[++number] = offset2 + 4 * i + 33;
-			indices[++number] = offset2 + 4 * i + 34;
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 1);
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 2);
 
 			indices[++number] = offset2 + 4 * i + 1;
 			indices[++number] = offset2 + 4 * i + 3;
-			indices[++number] = offset2 + 4 * i + 34;
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 2);
 
 			indices[++number] = offset2 + 4 * i + 3;
-			indices[++number] = offset2 + 4 * i + 34;
-			indices[++number] = offset2 + 4 * i + 36;
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 2);
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 4);
 
 			indices[++number] = offset2 + 4 * i + 2;
 			indices[++number] = offset2 + 4 * i + 3;
-			indices[++number] = offset2 + 4 * i + 35;
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 3);
 
 			indices[++number] = offset2 + 4 * i + 3;
-			indices[++number] = offset2 + 4 * i + 35;
-			indices[++number] = offset2 + 4 * i + 36;
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 3);
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 4);
 
 			indices[++number] = offset2 + 4 * i + 2;
-			indices[++number] = offset2 + (4 * i + 4) % 32;
-			indices[++number] = offset2 + 4 * i + 35;
+			indices[++number] = offset2 + (4 * i + 4) % (2 * ANGLE_NUMBER);
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 3);
 
-			indices[++number] = offset2 + (4 * i + 4) % 32;
-			indices[++number] = offset2 + 4 * i + 35;
-			indices[++number] = offset2 + 33 + (4 * i + 4) % 32;
+			indices[++number] = offset2 + (4 * i + 4) % (2 * ANGLE_NUMBER);
+			indices[++number] = offset2 + 4 * i + (2 * ANGLE_NUMBER + 3);
+			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + (4 * i + 4) % (2 * ANGLE_NUMBER);
 		}
 
 
 		///////////////////////////////////////
 
-		offset = 132 * 12;
+		offset = (2 * ANGLE_NUMBER + 1) * 2 * 2 * 12;
 
 		GLfloat centerXcylinder = 0.0f;
 		GLfloat centerYcylinder = 0.0f;
@@ -383,8 +406,7 @@ int main()
 		GLfloat sizeCylinder = 10.0f;
 		GLfloat radiusCylinder = 1.5f;
 
-		//132 to start cylindra
-		// 66 to start drugiego ko³a
+		//cylinder teraz - kloda
 
 		GLfloat tekstura = 0.0f;
 
@@ -416,7 +438,7 @@ int main()
 
 		tekstura = 0.0f;
 
-		offset2 = 132;
+		offset2 = (2 * ANGLE_NUMBER + 1) * 2 * 2;
 
 		for (int i = 0; i < 16; ++i)
 		{
@@ -453,7 +475,7 @@ int main()
 		vertices[offset + 12 * 16 + 5] = 10.0f / 256.0f;
 
 
-		offset2 = 149;
+		offset2 += 17;
 
 		for (int i = 0; i < 16; ++i)
 		{
@@ -462,7 +484,7 @@ int main()
 			indices[++number] = offset2 + (i + 1) % 16;
 		}
 
-		offset2 = 132;
+		offset2 -= 17;
 
 		for (int i = 0; i < 16; ++i)
 		{

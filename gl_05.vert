@@ -1,5 +1,7 @@
 #version 330 core
 
+#define ANGLE_NUMBER 16
+
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 color;
 layout (location = 2) in vec2 texCoord;
@@ -22,14 +24,14 @@ uniform mat4 projection;
 
 void main()
 {
-if(gl_VertexID < 8*4*2+2)
-gl_Position = projection * view * change * move2 * transform * move1 * vec4(position, 1.0f);
-else if(gl_VertexID >= 66 && gl_VertexID < 132 )
-gl_Position = projection * view * change * move1 * transform2 * move2 * vec4(position, 1.0f);
-else if(gl_VertexID >= 132 && gl_VertexID < 166)
-gl_Position = projection * view * change * move3 * vec4(position, 1.0f);
-else if(gl_VertexID >= 166 && gl_VertexID < 186)
-gl_Position = projection * view * change * move4 * vec4(position, 1.0f);
+if(gl_VertexID < ANGLE_NUMBER*2*2+2)
+gl_Position = projection * view * change * move2 * transform * move1 * vec4(position, 1.0f);	//pierwsze kolo zebate
+else if(gl_VertexID >= ANGLE_NUMBER*2*2+2 && gl_VertexID < (ANGLE_NUMBER*2*2+2)*2 )
+gl_Position = projection * view * change * move1 * transform2 * move2 * vec4(position, 1.0f);	//drugie kolo zebate
+else if(gl_VertexID >= (ANGLE_NUMBER*2*2+2)*2 && gl_VertexID < (ANGLE_NUMBER*2*2+2)*2 + 34)
+gl_Position = projection * view * change * move3 * vec4(position, 1.0f);	//walec
+else if(gl_VertexID >= (ANGLE_NUMBER*2*2+2)*2 + 34 && gl_VertexID < (ANGLE_NUMBER*2*2+2)*2 + 34 + 20)
+gl_Position = projection * view * change * move4 * vec4(position, 1.0f);	//podstawa
 else
 gl_Position = projection * view * change * vec4(position, 1.0f);
 

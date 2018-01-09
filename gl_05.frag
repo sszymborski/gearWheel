@@ -11,6 +11,10 @@ uniform sampler2D Texture2;
 uniform sampler2D Texture3;
 uniform sampler2D Texture4;
 
+uniform lowp vec3 lightPosition;	//
+uniform lowp vec3 lightDiffuseColor;	//
+uniform lowp vec3 lightAmbientColor;	//
+
 void main()
 {
    if(TexID < -0.6f)
