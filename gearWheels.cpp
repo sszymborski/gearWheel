@@ -22,10 +22,11 @@ const GLuint WIDTH = 1200, HEIGHT = 700;
 static GLfloat camera_angle_Horizontal = 0.0f;
 static GLfloat camera_angle_Vertical = 0.0f;
 static GLfloat startAngle = 360.0f / ANGLE_NUMBER;
-static GLfloat level = 2.0f;
+static GLfloat speed = 2.0f;
 static GLfloat red = 1.0f;
 static GLfloat green = 1.0f;
 static GLfloat blue = 1.0f;
+static GLfloat zoom = 20.0f;
 static bool directionDown = true;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -40,10 +41,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		camera_angle_Vertical += 2.5f;
 	if (key == GLFW_KEY_DOWN && camera_angle_Vertical >-5.0f)
 		camera_angle_Vertical -= 2.5f;
-	if (key == GLFW_KEY_MINUS && level > 0.0f)
-		level -= 0.5f;
+	if (key == GLFW_KEY_MINUS && speed > 0.0f)
+		speed -= 0.5f;
 	if (key == GLFW_KEY_EQUAL)
-		level += 0.5f;
+		speed += 0.5f;
 	if (key == GLFW_KEY_R && red > LIGHT_DOWN_LIMIT)
 		red -= PULSE;
 	if (key == GLFW_KEY_G && green > LIGHT_DOWN_LIMIT)
@@ -87,6 +88,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (blue < LIGHT_UP_LIMIT)
 			blue += PULSE;
 	}
+	if (key == GLFW_KEY_S && zoom < 21)
+		zoom += 1;
+	if (key == GLFW_KEY_W && zoom > 7)
+		zoom -= 1;
 
 }
 
@@ -167,14 +172,14 @@ int main()
 		GLfloat sizeGear = 1.5f;
 		GLfloat radius = 1.0f;
 		GLfloat teethSize = 0.2f;
-		GLfloat vertices[12 * (ANGLE_NUMBER * 2 + 1) * 2 * 2 + 34 * 12 + 20 * 12 + 4 * 12 + 20 * 12];
+		GLfloat vertices[12 * ( (ANGLE_NUMBER * 2 + 1) * 2 * 2 +	 34  +		20 +	 4 +	 20)];
 		//dwa kola
 		//walec
 		//podstawa
 		//podloga
 		//skybox
 
-		for (int i = 0; i < 12 * (ANGLE_NUMBER * 2 + 1) * 2 * 2 + 34 * 12 + 20 * 12 + 4 * 12 + 20 * 12; ++i)
+		for (int i = 0; i < 12 * ((ANGLE_NUMBER * 2 + 1) * 2 * 2 + 34 + 20 + 4 + 20); ++i)
 			vertices[i] = 0;
 		//srodki kola zebatego
 		vertices[ANGLE_NUMBER * 2 * 12] = centerX;
@@ -223,10 +228,10 @@ int main()
 			angle += 360.0 / ANGLE_NUMBER;
 		}
 
-		GLuint indices[(3 * (4 * ANGLE_NUMBER + 4 * ANGLE_NUMBER)) * 2 + 3 * 16 + 3 * 16 + 3 * 16 * 2 + 3 * 10 + 2 * 3 + 3 * 10];
+		GLuint indices[3 * ((4 * ANGLE_NUMBER + 4 * ANGLE_NUMBER) * 2 +	 16 +	16 +	16 * 2 +	10 +	2 +		10)];
 		int number = -1;
 
-		for (int i = 0; i < ((3 * (4 * ANGLE_NUMBER + 4 * ANGLE_NUMBER)) * 2 + 3 * 16 + 3 * 16 + 3 * 16 * 2 + 3 * 10 + 2 * 3 + 3 * 10); ++i)
+		for (int i = 0; i < 3 * ((4 * ANGLE_NUMBER + 4 * ANGLE_NUMBER) * 2 + 16 + 16 + 16 * 2 + 10 + 2 + 10); ++i)
 			indices[i] = 0;
 
 		//oba kola zebate
@@ -256,7 +261,6 @@ int main()
 			indices[++number] = 4 * i + 2;
 			indices[++number] = 4 * i + 3;
 		}
-
 		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
 			indices[++number] = (2 * ANGLE_NUMBER + 1) + 2 * i;
@@ -384,8 +388,6 @@ int main()
 			indices[++number] = offset2 + 4 * i + 2;
 			indices[++number] = offset2 + 4 * i + 3;
 		}
-
-
 		for (int i = 0; i < ANGLE_NUMBER; ++i)
 		{
 			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 2 * i;
@@ -404,7 +406,6 @@ int main()
 			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i + 2;
 			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + 4 * i + 3;
 		}
-
 		for (int i = 0; i < ANGLE_NUMBER / 2; ++i)
 		{
 			indices[++number] = offset2 + 4 * i;
@@ -440,7 +441,6 @@ int main()
 			indices[++number] = offset2 + (2 * ANGLE_NUMBER + 1) + (4 * i + 4) % (2 * ANGLE_NUMBER);
 		}
 
-
 		// koniec kol zebatych
 
 		offset = (2 * ANGLE_NUMBER + 1) * 2 * 2 * 12;
@@ -453,20 +453,20 @@ int main()
 
 		//cylinder teraz - kloda
 
-		GLfloat tekstura = 0.0f;
+		GLfloat fragment = 0.0f;
 
 		for (int i = 0; i < 16; ++i)
 		{
 			vertices[offset + 12 * i] = cos(glm::radians(angle))*radiusCylinder + centerXcylinder;
-			vertices[offset + 12 * i + 1] = -(0 + centerZcylinder);
+			vertices[offset + 12 * i + 1] = -centerZcylinder;
 			vertices[offset + 12 * i + 2] = sin(glm::radians(angle))*radiusCylinder + centerYcylinder;
 
 			vertices[offset + 12 * i + 3] = 0.4f;
 			vertices[offset + 12 * i + 4] = 0.4f;
 			vertices[offset + 12 * i + 5] = 0.4f;
 
-			vertices[offset + 12 * i + 7] = tekstura;
-			tekstura += 1.0f / 16.0f;
+			vertices[offset + 12 * i + 7] = fragment;
+			fragment += 1.0f / 16.0f;
 			vertices[offset + 12 * i + 6] = 0.0f;
 
 			vertices[offset + 12 * i + 11] = 1.0f;
@@ -475,13 +475,13 @@ int main()
 		}
 
 		vertices[offset + 12 * 16] = centerXcylinder;
-		vertices[offset + 12 * 16 + 1] = -(centerZcylinder);
+		vertices[offset + 12 * 16 + 1] = -centerZcylinder;
 		vertices[offset + 12 * 16 + 2] = centerYcylinder;
 		vertices[offset + 12 * 16 + 3] = 50.0f / 256.0f;
 		vertices[offset + 12 * 16 + 4] = 35.0f / 256.0f;
 		vertices[offset + 12 * 16 + 5] = 10.0f / 256.0f;
 
-		tekstura = 0.0f;
+		fragment = 0.0f;
 
 		offset2 = (2 * ANGLE_NUMBER + 1) * 2 * 2;
 
@@ -504,8 +504,8 @@ int main()
 			vertices[offset + 12 * i + 4] = 0.4f;
 			vertices[offset + 12 * i + 5] = 0.4f;
 
-			vertices[offset + 12 * i + 7] = tekstura;
-			tekstura += 1.0f / 16.0f;
+			vertices[offset + 12 * i + 7] = fragment;
+			fragment += 1.0f / 16.0f;
 			vertices[offset + 12 * i + 6] = 1.0f;
 
 			vertices[offset + 12 * i + 11] = 1.0f;
@@ -518,7 +518,6 @@ int main()
 		vertices[offset + 12 * 16 + 3] = 50.0f / 256.0f;
 		vertices[offset + 12 * 16 + 4] = 35.0f / 256.0f;
 		vertices[offset + 12 * 16 + 5] = 10.0f / 256.0f;
-
 
 		offset2 += 17;
 
@@ -612,16 +611,16 @@ int main()
 			vertices[offset + i * 12 + 11] = 0.5f;
 		}
 
-		GLfloat kwadrat = 20.0f;
+		GLfloat floor = 20.0f;
 
-		vertices[offset] = kwadrat;
-		vertices[offset + 1] = kwadrat;
-		vertices[offset + 1 * 12] = kwadrat;
-		vertices[offset + 1 * 12 + 1] = -kwadrat;
-		vertices[offset + 2 * 12] = -kwadrat;
-		vertices[offset + 2 * 12 + 1] = -kwadrat;
-		vertices[offset + 3 * 12] = -kwadrat;
-		vertices[offset + 3 * 12 + 1] = kwadrat;
+		vertices[offset] = floor;
+		vertices[offset + 1] = floor;
+		vertices[offset + 1 * 12] = floor;
+		vertices[offset + 1 * 12 + 1] = -floor;
+		vertices[offset + 2 * 12] = -floor;
+		vertices[offset + 2 * 12 + 1] = -floor;
+		vertices[offset + 3 * 12] = -floor;
+		vertices[offset + 3 * 12 + 1] = floor;
 
 		vertices[offset + 7] = 1;
 		vertices[offset + 3 * 12 + 7] = 1;
@@ -772,13 +771,13 @@ int main()
 
 			glUniform3f(glGetUniformLocation(theProgram.get_programID(), "lightColor"), red, green, blue);
 
-			glm::mat4 trans;
+			glm::mat4 trans;		// obrot kola zebatego
 			static GLfloat rot_angle = 0.0f;
-			trans = glm::rotate(trans, -glm::radians(rot_angle), glm::vec3(0.0f, 0.0f, 1.0f)); //obrot wokol osi X
+			trans = glm::rotate(trans, -glm::radians(rot_angle), glm::vec3(0.0f, 0.0f, 1.0f));
 			if (directionDown)
-				rot_angle += 0.1f * level; //predkosc obrotu
+				rot_angle += 0.1f * speed;
 			else
-				rot_angle -= 0.1f * level;
+				rot_angle -= 0.1f * speed;
 
 			if (rot_angle >= 360.0f)
 				rot_angle -= 360.0f;
@@ -789,56 +788,46 @@ int main()
 			GLuint transformLoc = glGetUniformLocation(theProgram.get_programID(), "transform");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
-			glm::mat4 trans2;
+			glm::mat4 trans2;		//obrot drugiego kola zebatego
 			static GLfloat rot_angle2 = 0.0f;
-			trans2 = glm::rotate(trans2, glm::radians(rot_angle2), glm::vec3(0.0f, 0.0f, 1.0f)); //obrot wokol osi X
-			if (directionDown)
-				rot_angle2 += 0.1f * level; //predkosc obrotu
-			else
-				rot_angle2 -= 0.1f * level;
+			trans2 = glm::rotate(trans2, glm::radians(rot_angle), glm::vec3(0.0f, 0.0f, 1.0f)); //obrot wokol osi X
 
-			if (rot_angle2 >= 360.0f)
-				rot_angle2 -= 360.0f;
-
-			if (rot_angle2 <= 360.0f)
-				rot_angle2 += 360.0f;
 			GLuint transform2Loc = glGetUniformLocation(theProgram.get_programID(), "transform2");
 			glUniformMatrix4fv(transform2Loc, 1, GL_FALSE, glm::value_ptr(trans2));
 
-			glm::mat4 trans3;
+			glm::mat4 trans3;		//przerzucanie (powrot)
 			trans3 = glm::translate(trans3, glm::vec3(centerX, centerY, centerZ));
 			GLuint transform3Loc = glGetUniformLocation(theProgram.get_programID(), "move1");
 			glUniformMatrix4fv(transform3Loc, 1, GL_FALSE, glm::value_ptr(trans3));
 
-			glm::mat4 trans4;
+			glm::mat4 trans4;		//przerzucanie (powrot)
 			trans4 = glm::translate(trans4, glm::vec3(-centerX, centerY, centerZ));
 			GLuint transform4Loc = glGetUniformLocation(theProgram.get_programID(), "move2");
 			glUniformMatrix4fv(transform4Loc, 1, GL_FALSE, glm::value_ptr(trans4));
 
-			glm::mat4 trans5;
-			static GLfloat speed = 0.0f;
-			trans5 = glm::translate(trans5, glm::vec3(0.0f, speed, 0.0f));
+			glm::mat4 trans5;		//poruszanie walcem
+			static GLfloat position = 0.0f;
+			trans5 = glm::translate(trans5, glm::vec3(0.0f, position, 0.0f));
 
 			if (directionDown)
-				speed -= 0.00209440f * level; //predkosc obrotu
+				position -= 0.00209440f * speed; //predkosc obrotu
 			else
-				speed += 0.00209440f * level;
+				position += 0.00209440f * speed;
 
-			if (speed < -10.0f)
+			if (position < -10.0f)
 				directionDown = false;
-			if (speed > 0.0f)
+			if (position > 0.0f)
 				directionDown = true;
-
 
 			GLuint transform5Loc = glGetUniformLocation(theProgram.get_programID(), "move3");
 			glUniformMatrix4fv(transform5Loc, 1, GL_FALSE, glm::value_ptr(trans5));
 
-			glm::mat4 trans6;
+			glm::mat4 trans6;		//umiejscowienie podstawy
 			trans6 = glm::translate(trans6, glm::vec3(0.0f, 0.0f, 2.5f));
 			GLuint transform6Loc = glGetUniformLocation(theProgram.get_programID(), "move4");
 			glUniformMatrix4fv(transform6Loc, 1, GL_FALSE, glm::value_ptr(trans6));
 
-			glm::mat4 trans7;
+			glm::mat4 trans7;		//rotacja po osi
 			static GLfloat rot_angle7 = 90.0f;
 			trans7 = glm::rotate(trans7, glm::radians(rot_angle7), glm::vec3(1.0f, 0.0f, 0.0f));
 			GLuint transform7Loc = glGetUniformLocation(theProgram.get_programID(), "change");
@@ -862,9 +851,8 @@ int main()
 
 			camRot = glm::rotate(camRot, glm::radians(camera_angle_Horizontal), glm::vec3(0.0, 1.0, 0.0));
 			camRot = glm::rotate(camRot, glm::radians(camera_angle_Vertical), glm::vec3(1.0, 0.0, 0.0));
-			cameraPos = glm::vec3(camRot * glm::vec4(0.0f, 0.0f, -20.0f, 1.0f));
-			//glm::mat4 view;
-			//glm::mat4 projection;
+			cameraPos = glm::vec3(camRot * glm::vec4(0.0f, 0.0f, -zoom, 1.0f));
+
 			view = glm::lookAt(cameraPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 

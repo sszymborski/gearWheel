@@ -11,8 +11,8 @@ out vec3 vecColor;
 out vec2 TexCoord;
 out float TexID;
   
-uniform mat4 transform;
-uniform mat4 transform2;
+uniform mat4 transform;		// kolo zebate
+uniform mat4 transform2;	// kolo zebate2
 uniform mat4 move1;			// przerzucanie do srodka - dla drugiego powrot
 uniform mat4 move2;			// powrot z srodka - dla drugiego przerzucanie
 uniform mat4 move3;			// ruch walca
