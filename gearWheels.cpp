@@ -730,11 +730,11 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// prepare textures
-		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "metal.jpg");
-		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "drewno.jpg");
-		GLuint texture2 = LoadMipmapTexture(GL_TEXTURE2, "bialy.jpg");
-		GLuint texture3 = LoadMipmapTexture(GL_TEXTURE3, "podloga.jpg");
-		GLuint texture4 = LoadMipmapTexture(GL_TEXTURE4, "otoczenie.jpg");
+		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "textures/metal.jpg");
+		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "textures/drewno.jpg");
+		GLuint texture2 = LoadMipmapTexture(GL_TEXTURE2, "textures/bialy.jpg");
+		GLuint texture3 = LoadMipmapTexture(GL_TEXTURE3, "textures/podloga.jpg");
+		GLuint texture4 = LoadMipmapTexture(GL_TEXTURE4, "textures/otoczenie.jpg");
 
 		// main event loop
 		while (!glfwWindowShouldClose(window))
